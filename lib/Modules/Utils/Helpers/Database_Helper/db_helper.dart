@@ -32,4 +32,14 @@ class DB_Helper {
     int? res = await db?.rawInsert(query, args);
     return res;
   }
+
+  Future<List<Student>?> viewData() async {
+    await initDB();
+
+    String query = "SELECT * FROM $table_name";
+    List<Map<String, dynamic>>? mapData = await db?.rawQuery(query);
+    List<Student>? StudentData =
+        mapData?.map((e) => Student.fromSQL(data: e)).toList();
+    return StudentData;
+  }
 }

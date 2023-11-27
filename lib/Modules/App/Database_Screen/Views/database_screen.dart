@@ -1,7 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rev_api_database/Modules/App/Database_Screen/Model/db_model.dart';
+import 'package:rev_api_database/Modules/App/Student_Detail_Screen/Views/student_detail.dart';
 import 'package:rev_api_database/Modules/Utils/Helpers/Database_Helper/db_helper.dart';
 import '../../../Utils/Globals/global.dart';
 
@@ -82,7 +85,15 @@ class DataBase_Screen extends StatelessWidget {
                     Global.nameController.clear();
                     Global.courseController.clear();
                   },
-                  child: Text("Add Student"))
+                  child: Text("Add Student")),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(Student_Detail());
+                  },
+                  child: Text("View Student Details")),
             ],
           ),
         ),
