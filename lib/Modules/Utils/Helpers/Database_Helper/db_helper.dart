@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:rev_api_database/Modules/App/Database_Screen/Model/db_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DB_Helper {
@@ -7,20 +8,28 @@ class DB_Helper {
   static final DB_Helper db_helper = DB_Helper._();
 
   static Database? db;
+  String table_name = "student";
+  String id = "id";
+  String name = "name";
+  String course = "course";
 
   initDB() async {
     String db_path = await getDatabasesPath();
     String path = join(db_path, "demo.db");
 
     db = await openDatabase(path, version: 1, onCreate: (db, version) {
-      String table_name = "student";
-      String id = "id";
-      String name = "name";
-      String course = "course";
-
       String query =
-          "CREATE TABLE IF NOT EXISTS $table_name($id INTEGER AUTOINCREMENT PRIMARY KEY,$name TEXT NOT NULL,$course TEXT NOT NULL);";
-      return db.execute("");
+          "CREATE TABLE IF NOT EXISTS $table_name($id INTEGER PRIMARY KEY AUTOINCREMENT ,$name TEXT NOT NULL,$course TEXT NOT NULL);";
+      return db.execute(query);
     });
+  }
+
+  Future<int?> insertData({required Student data}) async {
+    await initDB();
+
+    String query = "INSERT INTO $table_name($name,$course) VALUES(?,?);";
+    List args = [data.name, data.course];
+    int? res = await db?.rawInsert(query, args);
+    return res;
   }
 }
